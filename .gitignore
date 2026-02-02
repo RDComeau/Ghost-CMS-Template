@@ -1,0 +1,16 @@
+# Environment
+.env
+
+# Docker
+docker-data/
+.docker/
+*.log
+
+# Ghost content
+content/*
+!content/themes/
+!content/themes/**
+themes/*
+
+# MySQL data
+data/mysql/
