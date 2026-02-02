@@ -1,0 +1,37 @@
+services:
+  [fill-me-in]-ghost:
+    image: ghost:5-alpine
+    ports:
+      # Host:Container
+      # Change 8080 if you want Ghost on a different host port
+      - "8080:2368"
+    depends_on:
+      - [fill-me-in]-db
+    environment:
+      url: ${GHOST_URL}
+      database__client: mysql
+      database__connection__host: [fill-me-in]-db
+      database__connection__user: ${MYSQL_USER}
+      database__connection__password: ${MYSQL_PASSWORD}
+      database__connection__database: ${MYSQL_DATABASE}
+    networks:
+      - default
+      - proxy
+    volumes:
+      - ./content:/var/lib/ghost/content
+      - ./themes:/var/lib/ghost/content/themes
+    
+  [fill-me-in]-db:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+
+networks:
+  default:
+  proxy:
+    external: true
